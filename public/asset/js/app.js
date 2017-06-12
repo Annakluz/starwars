@@ -1,38 +1,39 @@
-var CargarPagina =function(){
-    cargarPersonajes();
+var cargarPagina = function (){
+  cargarPersonajes();
+
 };
 
-var cargarPersonajes =function (){
-    $.ajax("http://swapi.co/api/people/",{
-       // url: "http://swapi.co/api/people/",  podemos mover esto como parametro y da el mismo resultado
-        method: "GET",
-        dataType: "json",
-        success: function(response){
-            var personajes = response.results;
-            var total = response.count;
-            mostrarTotalPersonajes(total);
-            mostrarPersonajes(personajes);
-            
-          /*  var $ul =$("#personajes")
-            personajes.forEach(function(personaje){   //como parametro nos da la unidad de un arreglo. 
-               
-                var $li = $("<li />");
-                $li.text(personaje.name + "-" + personaje.height + " cm");
-                $ul.append($li);
-                
-                // console.log(personaje.name);
-            });.... lo sacamos para checar otros metodos */
-            
-            
-        },
-        error:function(response){
-            console.log("error", error)
-        },
-    });
-};
 
-var mostrarTotalPersonajes= functio(total){
-    $("#total").text(total);
+var cargarPersonajes = function () {
+
+var url = 'http://swapi.co/api/people/';
+$.getJSON(url, function (response) {
+  console.log(response);
+  // La diferencia con .get es que siempre se obtiene data, usualmente se utiliza para cuando no sabemos que tipo de informacion vamos a obtener.
+   // $.getJSON, solamente esperamos informacion tipo JSON. 
+
+  var personajes = response.results;
+  var total = response.count;
+
+  mostrarTotalPersonajes(total);
+  mostrarPersonajes(personajes);
+});
+
+};
+var mostrarTotalPersonajes = function (total){
+  $("#total").text("total de personajes:"+total);
 }
+var mostrarPersonajes = function(personajes) {
+  var $ul = $("#personajes");
+  personajes.forEach(function(personaje) {
+    console.log(personaje);
+    console.log(personaje.name);
+    console.log(personaje.height);
 
-$(document).ready(CargarPagina);
+    var $li = $("<li />");
+    $li.text(personaje.name +" "+personaje.height);
+    $ul.append($li);
+
+  });
+}
+$(document).ready(cargarPagina);
